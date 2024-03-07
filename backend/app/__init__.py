@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from .database import db
+from .controllers.tasks import register_routes
 
 def create_app():
     app = Flask(__name__)
@@ -13,7 +12,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from . import routes
         db.create_all()
 
+    register_routes(app)
     return app
